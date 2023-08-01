@@ -30,23 +30,23 @@ framework.on("spawn", (bot, id, actorId) => {
     // don't say anything here or your bot's spaces will get
     // spammed every time your server is restarted
     console.log(
-      `While starting up, the framework found our bot in a space called: ${bot.room.title}`
+      'While starting up, the framework found our bot in a space called: ${bot.room.title}'
     );
   } else {
     // When actorId is present it means someone added your bot got added to a new space
     // Lets find out more about them..
     var msg =
-      "You can say `help` to get the list of words I am able to respond to.";
+      "You can say 'help' to get the list of words I am able to respond to.";
     bot.webex.people
       .get(actorId)
       .then((user) => {
-        msg = `Hello there ${user.displayName}. ${msg}`;
+        msg = 'Hello there ${user.displayName}. ${msg}';
       })
       .catch((e) => {
         console.error(
-          `Failed to lookup user details in framwork.on("spawn"): ${e.message}`
+          'Failed to lookup user details in framwork.on("spawn"): ${e.message}'
         );
-        msg = `Hello there. ${msg}`;
+        msg = 'Hello there. ${msg}';
       })
       .finally(() => {
         // Say hello, and tell users what you do!
@@ -54,7 +54,7 @@ framework.on("spawn", (bot, id, actorId) => {
           bot.say("markdown", msg);
         } else {
           let botName = bot.person.displayName;
-          msg += `\n\nDon't forget, in order for me to see your messages in this group space, be sure to *@mention* ${botName}.`;
+          msg += '\n\nDon't forget, in order for me to see your messages in this group space, be sure to *@mention* ${botName}.';
           bot.say("markdown", msg);
         }
       });
@@ -105,7 +105,7 @@ framework.hears(
     let personAvatar = trigger.person.avatar;
     let personEmail = trigger.person.emails[0];
     let personDisplayName = trigger.person.displayName;
-    let outputString = `Here is your personal information: \n\n\n **Name:** ${personDisplayName}  \n\n\n **Email:** ${personEmail} \n\n\n **Avatar URL:** ${personAvatar}`;
+    let outputString = 'Here is your personal information: \n\n\n **Name:** ${personDisplayName}  \n\n\n **Email:** ${personEmail} \n\n\n **Avatar URL:** ${personAvatar}';
     bot.say("markdown", outputString);
   },
   "**info**: (get your personal details)",
@@ -123,12 +123,12 @@ framework.hears(
     let spaceID = bot.room.id;
     let roomType = bot.room.type;
 
-    let outputString = `The title of this space: ${roomTitle} \n\n The roomID of this space: ${spaceID} \n\n The type of this space: ${roomType}`;
+    let outputString = 'The title of this space: ${roomTitle} \n\n The roomID of this space: ${spaceID} \n\n The type of this space: ${roomType}';
 
     console.log(outputString);
     bot
       .say("markdown", outputString)
-      .catch((e) => console.error(`bot.say failed: ${e.message}`));
+      .catch((e) => console.error('bot.say failed: ${e.message}'));
   },
   "**space**: (get details about this space) ",
   0
@@ -155,11 +155,11 @@ framework.hears(
           let displayName = member.personDisplayName
             ? member.personDisplayName
             : member.personEmail;
-          bot.say(`Hello ${displayName}`);
+          bot.say('Hello ${displayName}');
         }
       })
       .catch((e) => {
-        console.error(`Call to sdk.memberships.get() failed: ${e.messages}`);
+        console.error('Call to sdk.memberships.get() failed: ${e.messages}');
         bot.say("Hello everybody!");
       });
   },
@@ -220,7 +220,7 @@ framework.hears(
 
     cardJSON.body[0].columns[0].items[0].url = avatar
       ? avatar
-      : `${config.webhookUrl}/missing-avatar.jpg`;
+      : '${config.webhookUrl}/missing-avatar.jpg';
     cardJSON.body[0].columns[0].items[1].text = trigger.person.displayName;
     cardJSON.body[0].columns[0].items[2].text = trigger.person.emails[0];
     bot.sendCard(
@@ -241,7 +241,7 @@ framework.hears(
     console.log("someone asked for a reply.  We will give them two.");
     bot.reply(
       trigger.message,
-      "This is threaded reply sent using the `bot.reply()` method.",
+      "This is threaded reply sent using the 'bot.reply()' method.",
       "markdown"
     );
     var msg_attach = {
@@ -263,12 +263,12 @@ ex User enters @botname help, the bot will write back in markdown
 framework.hears(
   /help|what can i (do|say)|what (can|do) you do/i,
   (bot, trigger) => {
-    console.log(`someone needs help! They asked ${trigger.text}`);
+    console.log('someone needs help! They asked ${trigger.text}');
     bot
-      .say(`Hello ${trigger.person.displayName}.`)
+      .say('Hello ${trigger.person.displayName}.')
       //    .then(() => sendHelp(bot))
       .then(() => bot.say("markdown", framework.showHelp()))
-      .catch((e) => console.error(`Problem in help hander: ${e.message}`));
+      .catch((e) => console.error('Problem in help hander: ${e.message}'));
   },
   "**help**: (what you are reading now)",
   0
@@ -283,13 +283,13 @@ framework.hears(
   /.*/,
   (bot, trigger) => {
     // This will fire for any input so only respond if we haven't already
-    console.log(`catch-all handler fired for user input: ${trigger.text}`);
+    console.log('catch-all handler fired for user input: ${trigger.text}');
     bot
-      .say(`Sorry, I don't know how to respond to "${trigger.text}"`)
+      .say('Sorry, I don't know how to respond to "${trigger.text}"')
       .then(() => bot.say("markdown", framework.showHelp()))
       //    .then(() => sendHelp(bot))
       .catch((e) =>
-        console.error(`Problem in the unexepected command hander: ${e.message}`)
+        console.error('Problem in the unexepected command hander: ${e.message}')
       );
   },
   99999
@@ -298,7 +298,7 @@ framework.hears(
 //Server config & housekeeping
 // Health Check
 app.get("/", (req, res) => {
-  res.send(`I'm alive.`);
+  res.send('I'm alive.');
 });
 
 app.post("/", webhook(framework));
